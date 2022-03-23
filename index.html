@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Password Check Example</title>
+        <script src="passthecheck.js"></script>
+        <style>
+            html,body{
+                margin: 0;
+                padding: 0;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background:#333;
+                color:white;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="height:100vh; width:300px; max-width:80vw; margin:auto; display:flex; justify-content: center; align-items: center;flex-direction: column;">
+            <h1>Password Strength Checker</h1>
+            <input style="width:100%; font:inherit; padding:10px; box-sizing:border-box" id="password" placeholder="Enter a password">
+            <p id="errors" style="color:tomato"></p>
+            <p id="warnings" style="color:orange"></p>
+            <button id="score" style="font:inherit; padding:10px" disabled>Score: 0%</button>
+            <p>
+                This password strength checker uses PassTheCheck.js and the Have I Been Pwned API. Your password is not sent over the internet, but the first 5 characters of a one-way hash of the password is.  There is no way to guess your password based on that one-way hash.
+            </p>
+        </div>
+        <script>
+            document.getElementById("password").addEventListener("keyup", async function(){
+                let result = await checkPassword(this.value);
+
+                if(result.passed) document.getElementById("score").removeAttribute("disabled");
+                else document.getElementById("score").setAttribute("disabled", true);
+
+                document.getElementById("score").textContent = "Score: " + Math.round(result.strengthPercentage * 100) + "%";
+                
+                document.getElementById("errors").innerHTML = result.errors.join("<br>");
+                document.getElementById("warnings").innerHTML = result.warnings.join("<br>");
+            });
+        </script>
+    </body>
+</html>
