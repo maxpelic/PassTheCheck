@@ -47,7 +47,7 @@ The system generates filters when the script is loaded (stored in `window.defaul
 
 You can view the index.html file to see a working example.  A call to this function might look like:
 ```js
-let result = await(document.getElementByID("password").value, [
+let result = await checkPassword(document.getElementByID("password").value, [
     {
         type:"symbol",
         value:1,
